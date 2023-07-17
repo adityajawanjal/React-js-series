@@ -19,38 +19,31 @@ const Chat = () => {
     setName(name);
     setRoom(room);
 
-    socket.emit("join", { name, room });
-
     return () => {
       socket.off();
     };
   }, [location.search]);
 
-  useEffect(() => {
-    socket.on(
-      "message",
-      (message) => {
-        setMessages([...messages, message]);
-      },
-      [messages]
-    );
-  });
-
+  useEffect(()=>{  
+    socket.on('msg',(msg)=>{
+      setMessages([...messages , msg]);
+      setMessage('');
+    })
+  })
+  
   const handleSendMessage = (e) =>{
     e.preventDefault();
     if(message){
-        socket.emit('sendMessage',message);
-        setMessage('');
-        console.log(messages);
+      socket.emit('sendMessage',{name , room , message});
     }
   }
 
   return (
     <div className="flex h-screen justify-center items-center">
-      <div className="flex flex-col w-6/12 border-2 border-black h-5/6">
+      <div className="flex flex-col w-11/12 md:w-6/12 border-2 border-black h-5/6">
         <ChatInfobar room = {room} />
-        <ChatSection/>
-        <ChatFooter setMessage={setMessage} handleSendMessage={handleSendMessage} />
+        <ChatSection messages ={messages} name={name} />
+        <ChatFooter setMessage={setMessage} message={message} handleSendMessage={handleSendMessage} />
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import ChatInfobar from "../components/ChatInfobar";
 import ChatSection from "../components/ChatSection";
 import ChatFooter from "../components/ChatFooter";
-import { BASE_URL } from "../main";
+// import { BASE_URL } from "../main";
 
 let socket;
 const Chat = () => {
@@ -12,7 +12,7 @@ const Chat = () => {
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const endPoint = BASE_URL;
+  const endPoint = process.env.BASE_URL;
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);

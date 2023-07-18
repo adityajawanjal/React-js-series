@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 const socketIO = require("socket.io");
-const { addUser, getUser } = require("./user");
 
 const app = express();
 const server = http.createServer(app);
@@ -10,7 +9,7 @@ app.use(cors());
 
 const io = socketIO(server, {
   cors: {
-    origin: `http://127.0.0.1:5173`,
+    origin: `${process.env.BASE_URL}`,
   },
 });
 
@@ -28,7 +27,7 @@ io.on("connection", (socket) => {
   });
 });
 
-const port = 5000;
+const port = process.env.PORT;
 server.listen(port, () => {
   console.log(`Server listening on PORT : ${port}`);
 });

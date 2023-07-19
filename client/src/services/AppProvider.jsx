@@ -1,16 +1,16 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../main";
 
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
-  // const [name , setUsers] = useState([]);
   const [user, setUser] = useState();
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/users`);
+      const res = await axios.get(BASE_URL);
       setUsers(res?.data);
     } catch (err) {
       console.log(err);

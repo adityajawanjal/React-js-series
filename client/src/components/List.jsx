@@ -1,14 +1,15 @@
 import React from "react";
 import axios from "axios";
 import { useUsers } from "../services/AppProvider";
+import { BASE_URL } from "../main";
 
 const List = () => {
   const { users, setUsers, setUser } = useUsers();
 
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/users/${id}`);
-      const res = await axios.get(`http://localhost:3000/users`);
+      await axios.delete(`${BASE_URL}/${id}`);
+      const res = await axios.get(`${BASE_URL}`);
       setUsers(res?.data);
     } catch (err) {
       console.log(err);
@@ -17,7 +18,7 @@ const List = () => {
 
   const getSingleUser = async (id) => {
     try {
-      const res = await axios.get(`http://localhost:3000/users/${id}`);
+      const res = await axios.get(`${BASE_URL}/${id}`);
       setUser(res.data);
     } catch (err) {
       console.log(err);

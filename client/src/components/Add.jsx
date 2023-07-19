@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate} from "react-router-dom"
 import { useUsers } from "../services/AppProvider";
+import { BASE_URL } from "../main";
 
 const Add = () => {
   const {user , setUsers , setUser} = useUsers();
-  
 
   const [name , setName] = useState('');
   const [email , setEmail] = useState('');
@@ -23,11 +22,11 @@ const Add = () => {
       email:email
     }
     try {
-      await axios.put(`http://localhost:3000/users/${user.id}`,data);
+      await axios.put(`${BASE_URL}/${user.id}`,data);
       setName('');
       setEmail('');
       setUser();
-      const res = await axios.get(`http://localhost:3000/users`);
+      const res = await axios.get(`${BASE_URL}`);
       setUsers(res?.data);
     } catch (err) {
       console.log(err);
@@ -41,10 +40,10 @@ const Add = () => {
       email:email
     }
     try {
-      await axios.post(`http://localhost:3000/users`,data);
+      await axios.post(`${BASE_URL}`,data);
       setName('');
       setEmail('');
-      const res = await axios.get(`http://localhost:3000/users`);
+      const res = await axios.get(`${BASE_URL}`);
       setUsers(res?.data);
     } catch (err) {
       console.log(err);

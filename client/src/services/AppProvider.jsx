@@ -1,34 +1,28 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { BASE_URL } from "../main";
 
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState();
 
-  const fetchUsers = async () => {
-    try {
-      const res = await axios.get(BASE_URL);
-      setUsers(res?.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const [token , setToken] = useState();
+  const [user , setUser] = useState();
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
+  useEffect(()=>{
+    const token = localStorage.getItem('token');
+    const localUser = localStorage.getItem('user');
+    const localSavedUser = JSON.parse(localUser);
+    setToken(token);
+    setUser(localSavedUser);
+  },[])
   return (
-    <AppContext.Provider value={{ users, setUsers, user, setUser }}>
+    <AppContext.Provider value={{token , setToken, user , setUser}}>
       {children}
     </AppContext.Provider>
   );
 };
 
-export const useUsers = () => {
+export const useToken = () => {
   return useContext(AppContext);
 };
+
 export default AppProvider;

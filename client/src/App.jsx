@@ -1,15 +1,43 @@
 import React from "react";
-import List from "./components/List";
-import Add from "./components/Add";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Error from "./pages/Error";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import AdminProtected from "./pages/Admin/AdminProtected";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminCategory from "./pages/Admin/AdminCategory";
+import UserProtected from "./pages/User/UserProtected";
+import UserOrders from "./pages/User/UserOrders";
+import UserDashboard from "./pages/User/UserDashboard";
+import AdminAddNewProduct from "./pages/Admin/AdminAddNewProduct";
+import AdminProducts from "./pages/Admin/AdminProducts";
+import AdminUpdateProduct from "./pages/Admin/AdminUpdateProduct";
 
 const App = () => {
   return (
     <>
-      <h1 className=" my-10 text-5xl text-orange-600 text-center">
-        Contact List of Users{" "}
-      </h1>
-      <Add />
-      <List />
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/about" element={<About />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<Signup />} />
+          <Route path="/admin" element={<AdminProtected />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="category" element={<AdminCategory />} />
+            <Route path="product" element={<AdminProducts />} />
+            <Route path="product/:slug" element={<AdminUpdateProduct />} />
+            <Route path="new-product" element={<AdminAddNewProduct />} />
+          </Route>
+          <Route path="/user" element={<UserProtected />}>
+            <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="orders" element={<UserOrders />} />
+          </Route>
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 };

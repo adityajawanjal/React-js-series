@@ -5,7 +5,6 @@ import { LoginApi } from "../services/api";
 import { useToken } from "../services/AppProvider";
 
 const Login = () => {
-
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +38,7 @@ const Login = () => {
    },[])
 
   return (
-    <Layout>
+    <Layout title={'Shoppy Karo ! Login'}>
       <div className=" flex w-7/12 my-10 py-10 px-5 border-2 border-gray-600 rounded-3xl shadow-slate-600 shadow-2xl mx-auto">
         <div className="flex justify-center self-center items-center flex-col gap-7 w-full">
           <h3 className=" text-5xl italic mb-5 pb-5 border-b-2 border-black">

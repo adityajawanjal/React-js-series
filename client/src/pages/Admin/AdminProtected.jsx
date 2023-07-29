@@ -19,7 +19,7 @@ const AdminProtected = () => {
     if (token && user) {
       AdminCheck();
     }
-  }, [token]);
+  }, [token , localStorage]);
 
   return isAdmin ? <Outlet /> : <Spinner/>
 };

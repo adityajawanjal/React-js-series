@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import AdminLayout from "./AdminLayout";
 import { useParams } from "react-router-dom";
-import { GetAllCategoryApi, GetSingleProductApi, UpdateProductApi } from "../../services/api";
+import { GetAllCategoryApi, GetPhotoApi, GetSingleProductApi, UpdateProductApi } from "../../services/api";
 
 const AdminUpdateProduct = () => {
   const [name, setName] = useState();
@@ -11,6 +11,8 @@ const AdminUpdateProduct = () => {
   const [category, setCategory] = useState();
   const [photo, setPhoto] = useState();
   const [options, setOptions] = useState([]);
+  const [id, setId] = useState();
+  const [pic, setPic] = useState();
 
   const handleGetAllCategories = async () => {
     const res = await GetAllCategoryApi();
@@ -27,9 +29,21 @@ const AdminUpdateProduct = () => {
       setDescription(res.product.description);
       setPrice(res.product.price);
       setCategory(res.product.category);
+      setId(res.product._id);
     }
-    console.log(res);
   };
+
+  const handleGetSinglePhoto = async () =>{
+    const res = await GetPhotoApi(id);
+    const url = URL.createObjectURL(res);
+    setPic(url);
+  }
+
+  useEffect(()=>{
+    if(id){
+      handleGetSinglePhoto();
+    }
+  },[id])
 
   useEffect(() => {
     handleGetSingleProduct();
@@ -37,16 +51,17 @@ const AdminUpdateProduct = () => {
   }, []);
 
   const handleUpdateProduct = async() => {
-    const id = category._id;
     const data = new FormData();
     data.append('name',name);
     data.append('description',description);
     data.append('price',price);
-    data.append('category', id);
+    data.append('category', category);
     data.append('photo',photo);
-    // console.log(category);
     const res = await UpdateProductApi({slug:params.slug , e:data});
-    console.log(res);
+    if(res?.product){
+      alert(res.msg);
+    }
+    alert(res.msg);
   };
 
   return (
@@ -115,19 +130,17 @@ const AdminUpdateProduct = () => {
               Update Product
             </button>
           </div>
-          {photo ? (
+         
             <div className="my-5">
               <h3 className=" pb-2 border-b-4 mb-5"> Image Preview</h3>
               <img
-                src={photo ? URL.createObjectURL(photo) : ""}
+                src={photo ? URL.createObjectURL(photo) : pic ? pic : ''}
                 alt="image"
                 width={"200px"}
                 height={"auto"}
               />
             </div>
-          ) : (
-            ""
-          )}
+          
         </div>
       </AdminLayout>
     </Layout>

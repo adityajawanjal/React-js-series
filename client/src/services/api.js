@@ -128,12 +128,47 @@ export const DeleteProductApi = async (id) => {
     return err.response.data;
   }
 };
-
-export const GetPhotoApi = async (id) => {
+export const ProductsFilterApi = async (data) => {
   try {
-    const res = await API.get(`/product/photo/${id}`);
+    const res = await API.post(`/products/filter` , data);
     return res.data;
   } catch (err) {
     return err.response.data;
+  }
+};
+
+export const TotalProductsApi = async () => {
+  try {
+    const res = await API.get(`/products/total/count`);
+    return res.data;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
+export const ProductsPerPageApi = async (page) => {
+  try {
+    const res = await API.get(`/products/perpage/${page}`);
+    return res.data;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
+export const ProductSearchApi = async (keyword) => {
+  try {
+    const res = await API.get(`/products/search/${keyword}`);
+    return res.data;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
+export const GetPhotoApi = async (id) => {
+  try {
+    const res = await API.get(`/product/photo/${id}`, {responseType:"blob"});
+    return res.data;
+  } catch (err) {
+    return err;
   }
 };

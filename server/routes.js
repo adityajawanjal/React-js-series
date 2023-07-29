@@ -19,6 +19,11 @@ const {
   updateProduct,
   deleteProduct,
   getProductPhoto,
+  productsFilter,
+  productsPerPage,
+  totalNoOfProducts,
+  searchProduct,
+  similarproducts,
 } = require("./controllers/product-controller");
 const formidable = require("express-formidable");
 
@@ -40,6 +45,10 @@ router.get(`/products/:slug`, getSingleProduct);
 router.post(`/products`, auth, admin, formidable(), addProduct);
 router.put(`/products/:slug`, auth, admin, formidable(), updateProduct);
 router.delete(`/products/:id`, auth, admin, deleteProduct);
+router.post(`/products/filter`, productsFilter);
+router.get(`/products/total/count`, totalNoOfProducts);
+router.get(`/products/perpage/:page`, productsPerPage);
+router.get(`/products/search/:keyword`, searchProduct);
 
 router.get(`/product/photo/:id`, auth, admin, getProductPhoto);
 

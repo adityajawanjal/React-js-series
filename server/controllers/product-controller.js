@@ -118,3 +118,60 @@ exports.getProductPhoto = async (req, res) => {
     res.status(400).json({ msg: "Error in getProductPhoto !", err });
   }
 };
+
+exports.productsFilter = async (req, res) => {
+  try {
+    const { checked, range } = req.body;
+    let args = {};
+    if (checked?.length > 0) {
+      args.category = checked;
+    }
+    if (range) {
+      let points = range.split(",");
+      args.price = { $gte: points[0], $lte: points[1] };
+    }
+    const products = await Product.find(args).select("-photo");
+    res.status(200).json({ msg: "Products sorted !", products });
+  } catch (err) {
+    res.status(400).json({ msg: "Error in productFilter !", err });
+  }
+};
+
+exports.totalNoOfProducts = async (req, res) => {
+  try {
+    const total = await Product.find({}).estimatedDocumentCount();
+    res.status(200).json({ msg: "Total Products", total });
+  } catch (err) {
+    res.status(400).json({ msg: "Error in totalProducts !", err });
+  }
+};
+
+exports.productsPerPage = async (req, res) => {
+  try {
+    const perPage = 1;
+    const page = req.params.page;
+    const products = await Product.find()
+      .select("-photo")
+      .skip((page - 1) * perPage)
+      .limit(perPage);
+    res.status(200).json({ msg: "Products per page", products });
+  } catch (err) {
+    res.status(400).json({ msg: "Error in productsPerPage !", err });
+  }
+};
+
+exports.searchProduct = async (req, res) => {
+  try {
+    const { keyword } = req.params;
+    const result = await Product.find({
+      $or: [
+        { name: { $regex: keyword } },
+        { description: { $regex: keyword } },
+      ],
+    }).select("-photo").populate('category');
+    res.status(200).json({ msg: "Products found !", products: result });
+  } catch (err) {
+    res.status(400).json({ msg: "Error in searchProduct !", err: err.message });
+  }
+};
+

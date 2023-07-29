@@ -19,7 +19,7 @@ const UserProtected = () => {
     if (token && user) {
       UserCheck();
     }
-  }, [token]);
+  }, [token , localStorage]);
 
   return isUser ? <Outlet /> : <Spinner/>
 };

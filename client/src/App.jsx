@@ -14,6 +14,9 @@ import UserDashboard from "./pages/User/UserDashboard";
 import AdminAddNewProduct from "./pages/Admin/AdminAddNewProduct";
 import AdminProducts from "./pages/Admin/AdminProducts";
 import AdminUpdateProduct from "./pages/Admin/AdminUpdateProduct";
+import SingleProduct from "./pages/SingleProduct";
+import Cart from "./pages/Cart";
+import Search from "./pages/Search";
 
 const App = () => {
   return (
@@ -24,6 +27,9 @@ const App = () => {
           <Route exact path="/about" element={<About />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
+          <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/product/:slug" element={<SingleProduct />} />
+          <Route exact path="/products/search/:keyword" element={<Search />} />
           <Route path="/admin" element={<AdminProtected />}>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="category" element={<AdminCategory />} />

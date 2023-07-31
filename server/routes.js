@@ -26,6 +26,7 @@ const {
   similarproducts,
 } = require("./controllers/product-controller");
 const formidable = require("express-formidable");
+const { braintreeToken, braintreePayment, allOrders } = require("./controllers/order-controller");
 
 const router = express.Router();
 
@@ -51,5 +52,10 @@ router.get(`/products/perpage/:page`, productsPerPage);
 router.get(`/products/search/:keyword`, searchProduct);
 
 router.get(`/product/photo/:id`, auth, admin, getProductPhoto);
+
+router.get(`/braintree/token` ,auth, braintreeToken);
+router.post(`/braintree/payment` , auth , braintreePayment);
+
+router.get(`/orders` , auth ,admin, allOrders);
 
 module.exports = router;

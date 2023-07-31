@@ -13,7 +13,7 @@ const AppProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     const localUser = localStorage.getItem('user');
     const allItems = localStorage.getItem('cart');
-    const cart = allItems ? JSON.parse(allItems) :'';
+    const cart = allItems ? JSON.parse(allItems) :[];
     const localSavedUser = JSON.parse(localUser);
     setToken(token);
     setUser(localSavedUser);

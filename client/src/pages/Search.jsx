@@ -19,7 +19,7 @@ const Search = () => {
 
   useEffect(() => {
     fetchSearchDetails();
-  }, []);
+  }, [params.keyword]);
 
   return (
     <Layout>

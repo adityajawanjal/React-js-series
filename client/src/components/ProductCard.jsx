@@ -3,28 +3,32 @@ import { GetPhotoApi } from "../services/api";
 import { useCart } from "../services/AppProvider";
 import { NavLink } from "react-router-dom";
 
-const ProductCard = ({ e , remove }) => {
+const ProductCard = ({ e, remove }) => {
   const [pic, setPic] = useState();
   const { setCartItems, cartItems } = useCart();
 
   const addToCart = () => {
+    const index = cartItems.findIndex((i) => i._id === e._id);
     let items = [...cartItems];
-    const itemsExists = items.find(i=>i._id === e._id);
-    if(!itemsExists){ 
+    if (index === -1) {
+      e.qty = 1;
       items.push(e);
       localStorage.setItem("cart", JSON.stringify(items));
-      setCartItems((pre)=> {return [...pre , e]});
+      setCartItems(items);
+    } else {
+      items[index].qty += 1;
+      localStorage.setItem("cart", JSON.stringify(items));
+      setCartItems(items);
     }
   };
 
-  const removeFromCart = () =>{
+  const removeFromCart = () => {
     let items = [...cartItems];
-    const index = items.findIndex(i=>i._id === e._id);
-      items.splice(index,1);
-      setCartItems(items);
-      localStorage.setItem("cart", JSON.stringify(items));
-    
-  }
+    const index = items.findIndex((i) => i._id === e._id);
+    items.splice(index, 1);
+    setCartItems(items);
+    localStorage.setItem("cart", JSON.stringify(items));
+  };
 
   const fetchPhoto = async () => {
     const res = await GetPhotoApi(e._id);
@@ -44,11 +48,16 @@ const ProductCard = ({ e , remove }) => {
       <img src={pic ? pic : ""} alt="pich" className="mb-2 w-11/12 h-40" />
       <p className=" text-justify mb-4 flex flex-col w-full">
         <span className=" line-clamp-3 self-center">{e.description}</span>{" "}
-        <NavLink to={`/product/${e.slug}`} className={"self-end"}>
-          <span className=" text-red-600 border-b-2 border-blue-500">
-            Read More...
+        <span className="flex absolute bottom-16">
+          <span className=" text-cyan-900">
+            {remove ? `QTY : ${e.qty}` : ""}
           </span>
-        </NavLink>
+          <NavLink to={`/product/${e.slug}`}>
+            <span className=" text-red-600 border-b-2 border-blue-500 relative left-24">
+              Read More...
+            </span>
+          </NavLink>
+        </span>
       </p>
       <div className="flex absolute bottom-2">
         <button className=" bg-blue-300 px-3 py-2 mr-2 ">
@@ -58,7 +67,7 @@ const ProductCard = ({ e , remove }) => {
           className=" bg-red-300 px-3 py-2 hover:cursor-pointer hover:bg-green-300"
           onClick={remove === true ? removeFromCart : addToCart}
         >
-          {remove === true ? 'Remove ':'Add to Cart'}
+          {remove === true ? "Remove " : "Add to Cart"}
         </button>
       </div>
     </div>

@@ -17,6 +17,8 @@ import AdminUpdateProduct from "./pages/Admin/AdminUpdateProduct";
 import SingleProduct from "./pages/SingleProduct";
 import Cart from "./pages/Cart";
 import Search from "./pages/Search";
+import Payment from "./pages/Payment";
+import AdminOrders from "./pages/Admin/AdminOrders";
 
 const App = () => {
   return (
@@ -36,10 +38,12 @@ const App = () => {
             <Route path="product" element={<AdminProducts />} />
             <Route path="product/:slug" element={<AdminUpdateProduct />} />
             <Route path="new-product" element={<AdminAddNewProduct />} />
+            <Route path="orders" element={<AdminOrders />} />
           </Route>
           <Route path="/user" element={<UserProtected />}>
             <Route path="dashboard" element={<UserDashboard />} />
             <Route path="orders" element={<UserOrders />} />
+            <Route path="payment" element={<Payment />} />
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>

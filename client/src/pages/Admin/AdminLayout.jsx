@@ -26,6 +26,11 @@ const AdminLayout = ({ children }) => {
             DashBoard
           </div>
           </NavLink>
+          <NavLink to={'/admin/orders'}>
+          <div className=" border border-gray-500 rounded-2xl px-6 py-3 text-xl">
+            Orders
+          </div>
+          </NavLink>
         </div>
       </div>
       <div className=" col-span-9 my-10">{children}</div>

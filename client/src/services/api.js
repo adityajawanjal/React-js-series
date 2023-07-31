@@ -2,13 +2,13 @@ import axios from "axios";
 
 export const BACKEND_URL = `http://localhost:5000`;
 
-const key = localStorage.getItem('token');
+const key = localStorage.getItem("token");
 const token = JSON.parse(key);
 
 const API = axios.create({
   baseURL: `${BACKEND_URL}/api`,
   headers: {
-    Authorization: token ? token : '',
+    Authorization: token ? token : "",
   },
 });
 
@@ -50,7 +50,7 @@ export const UserProtectedApi = async () => {
 
 export const CreateCategoryApi = async (e) => {
   try {
-    const res = await API.post(`/category` , e);
+    const res = await API.post(`/category`, e);
     return res.data;
   } catch (err) {
     return err.response.data;
@@ -66,9 +66,9 @@ export const GetAllCategoryApi = async () => {
   }
 };
 
-export const UpdateCategoryApi = async ({slug , e}) => {
+export const UpdateCategoryApi = async ({ slug, e }) => {
   try {
-    const res = await API.put(`/category/${slug}`,e);
+    const res = await API.put(`/category/${slug}`, e);
     return res.data;
   } catch (err) {
     return err.response.data;
@@ -104,16 +104,16 @@ export const GetSingleProductApi = async (slug) => {
 
 export const AddProductApi = async (e) => {
   try {
-    const res = await API.post(`/products` , e);
+    const res = await API.post(`/products`, e);
     return res.data;
   } catch (err) {
     return err.response.data;
   }
 };
 
-export const UpdateProductApi = async ({slug , e}) => {
+export const UpdateProductApi = async ({ slug, e }) => {
   try {
-    const res = await API.put(`/products/${slug}` , e);
+    const res = await API.put(`/products/${slug}`, e);
     return res.data;
   } catch (err) {
     return err.response.data;
@@ -130,7 +130,7 @@ export const DeleteProductApi = async (id) => {
 };
 export const ProductsFilterApi = async (data) => {
   try {
-    const res = await API.post(`/products/filter` , data);
+    const res = await API.post(`/products/filter`, data);
     return res.data;
   } catch (err) {
     return err.response.data;
@@ -166,7 +166,34 @@ export const ProductSearchApi = async (keyword) => {
 
 export const GetPhotoApi = async (id) => {
   try {
-    const res = await API.get(`/product/photo/${id}`, {responseType:"blob"});
+    const res = await API.get(`/product/photo/${id}`, { responseType: "blob" });
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const GetBraintreeToken = async (id) => {
+  try {
+    const res = await API.get(`/braintree/token`);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const BraintreePayment = async (data) => {
+  try {
+    const res = await API.post(`/braintree/payment` , data);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const AllOrders = async () => {
+  try {
+    const res = await API.get(`/orders`);
     return res.data;
   } catch (err) {
     return err;
